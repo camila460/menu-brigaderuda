@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mr. Brigaderuda - Catálogo de Delícias</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #b34747;
+    }
+    .catalog {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .item {
+      background: #fff4f4;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ffcfcf;
+    }
+    .item h2 {
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+    .item p {
+      margin: 5px 0;
+    }
+    .item input {
+      width: 60px;
+      padding: 5px;
+    }
+    .item button {
+      background-color: #d35400;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .item button:hover {
+      background-color: #a84300;
+    }
+    .finalizar {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .finalizar button {
+      background-color: #b34747;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .finalizar button:hover {
+      background-color: #8c2e2e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mr. Brigaderuda 🍫</h1>
+    <div class="catalog" id="catalog">
+      <!-- Itens do catálogo -->
+      <div class="item">
+        <h2>Bolo de Pote Oreo</h2>
+        <p>Camadas de brigadeiro branco, massa de chocolate e pedaços crocantes de Oreo.</p>
+        <label>Quantidade:</label>
+        <input type="number" min="0" value="0" data-nome="Bolo de Pote Oreo" class="quantidade">
+      </div>
+      <div class="item">
+        <h2>Brownie Tradicional</h2>
+        <p>Brownie úmido e intenso de chocolate com casquinha crocante.</p>
+        <label>Quantidade:</label>
+        <input type="number" min="0" value="0" data-nome="Brownie Tradicional" class="quantidade">
+      </div>
+      <div class="item">
+        <h2>Bolo de Pote Morango</h2>
+        <p>Brigadeiro branco, massa de baunilha e geleia de morango artesanal.</p>
+        <label>Quantidade:</label>
+        <input type="number" min="0" value="0" data-nome="Bolo de Pote Morango" class="quantidade">
+      </div>
+      <div class="item">
+        <h2>Combo Doces Gourmet</h2>
+        <p>3 bolos de pote à sua escolha + 2 brownies.</p>
+        <label>Quantidade:</label>
+        <input type="number" min="0" value="0" data-nome="Combo Doces Gourmet" class="quantidade">
+      </div>
+    </div>
+    <div class="finalizar">
+      <label for="cliente">Seu nome:</label>
+      <input type="text" id="cliente" placeholder="Digite seu nome" style="padding:10px; width:100%; margin: 10px 0; border-radius:6px; border:1px solid #ccc;">
+      <button onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    function finalizarPedido() {
+      const nome = document.getElementById("cliente").value.trim();
+      if (!nome) {
+        alert("Por favor, digite seu nome.");
+        return;
+      }
+
+      const inputs = document.querySelectorAll(".quantidade");
+      let mensagem = `Olá, meu nome é ${nome}. Gostaria de fazer o seguinte pedido:\n\n`;
+      let algumItem = false;
+
+      inputs.forEach(input => {
+        const qtd = parseInt(input.value);
+        const nomeItem = input.dataset.nome;
+        if (qtd > 0) {
+          mensagem += `- ${qtd}x ${nomeItem}\n`;
+          algumItem = true;
+        }
+      });
+
+      if (!algumItem) {
+        alert("Por favor, selecione pelo menos um item.");
+        return;
+      }
+
+      const phoneNumber = "5581999999999"; // Substitua pelo número real da doceria
+      const link = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(mensagem)}`;
+      window.open(link, '_blank');
+    }
+  </script>
+</body>
+</html>
